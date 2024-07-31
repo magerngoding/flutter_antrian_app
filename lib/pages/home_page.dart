@@ -5,6 +5,8 @@ import 'package:flutter_antrian_app/core/constants/colors.dart';
 import 'package:flutter_antrian_app/data/models/antrian.dart';
 import 'package:flutter_antrian_app/pages/antrian_page.dart';
 
+import '../data/datasource/antrian_local_datasource.dart';
+
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
@@ -13,6 +15,23 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  List<Antrian> listAntrian = [];
+
+  Future<void> getAntrian() async {
+    //get all antrian
+    final result = await AntrianLocalDatasource.instance.getAllAntrian();
+    setState(() {
+      listAntrian = result;
+    });
+  }
+
+// Menjalankan getAntrian setelah app di run
+  @override
+  void initState() {
+    getAntrian();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,7 +52,7 @@ class _HomePageState extends State<HomePage> {
           mainAxisSpacing: 6,
           crossAxisSpacing: 6,
         ),
-        itemCount: dataAntrian.length,
+        itemCount: listAntrian.length,
         shrinkWrap: true,
         physics: ScrollPhysics(),
         itemBuilder: (BuildContext context, int index) {
@@ -47,7 +66,7 @@ class _HomePageState extends State<HomePage> {
               children: [
                 // Text nama antrian
                 Text(
-                  dataAntrian[index].nama,
+                  listAntrian[index].nama,
                   style: TextStyle(
                     fontSize: 20.0,
                     fontWeight: FontWeight.bold,
@@ -60,7 +79,7 @@ class _HomePageState extends State<HomePage> {
 
                 // No antrian
                 Text(
-                  dataAntrian[index].noAntrian,
+                  listAntrian[index].noAntrian,
                   style: TextStyle(
                     fontSize: 16.0,
                     fontWeight: FontWeight.bold,
@@ -73,11 +92,12 @@ class _HomePageState extends State<HomePage> {
         },
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.push(
+        onPressed: () async {
+          await Navigator.push(
             context,
             MaterialPageRoute(builder: (context) => AntrianPage()),
           );
+          getAntrian();
         },
         child: Icon(
           Icons.settings,

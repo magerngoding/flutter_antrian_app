@@ -1,10 +1,10 @@
 import 'package:flutter_antrian_app/data/models/antrian.dart';
 import 'package:sqflite/sqflite.dart';
 
-class AntrianLocalDatasouce {
-  AntrianLocalDatasouce._init();
+class AntrianLocalDatasource {
+  AntrianLocalDatasource._init();
 
-  static final AntrianLocalDatasouce instance = AntrianLocalDatasouce._init();
+  static final AntrianLocalDatasource instance = AntrianLocalDatasource._init();
 
   final String tableAntrian = 'tbl_antrian';
 
@@ -13,10 +13,10 @@ class AntrianLocalDatasouce {
   Future<void> _createDB(Database db, int version) async {
     await db.execute('''
       CREATE TABLE $tableAntrian (
-      id INTEGER PRIMARY KEY AUTOINCREMENT.
-      nama TEXT,
-      noAntrian TEXT,
-      isActive INTEGER
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        nama TEXT,
+        noAntrian TEXT,
+        isActive INTEGER
       )
     ''');
   }
