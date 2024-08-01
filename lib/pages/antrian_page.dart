@@ -139,6 +139,7 @@ class _AntrianPageState extends State<AntrianPage> {
                                           .daleteAntrian(
                                               listAntrian[index].id!);
                                     });
+                                    getAntrian();
                                     Navigator.pop(context);
                                   },
                                   child: Text(
